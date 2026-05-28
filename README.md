@@ -174,7 +174,39 @@ After startup, open:
 http://localhost:8080/chatui/index.html
 ```
 
-Chat with agent **`add_supervisor`** to trigger iterations manually or refine prompts.
+Select agent **`add_supervisor`** (not the old `personal_assistant` unless using the built-in alias).
+
+**Troubleshooting — no reply in Chat UI**
+
+| Symptom | Cause | Fix |
+|---------|--------|-----|
+| Send message, nothing appears | Browser thread still uses **`personal_assistant`** after rename | Restart app (includes alias), or create a **new thread** under **`add_supervisor`**, or clear site data for `localhost:8080` |
+| Spinner runs 10+ minutes | Supervisor called `run_iteration_N`; one iteration = **4–8 LLM calls** | Wait, or ask only: `Summarize iteration 1 drivers without running tools` |
+| Immediate error in server log | `OPENAI_API_KEY` empty | `export OPENAI_API_KEY=...` in the same terminal before `spring-boot:run` |
+| Simple message, UI empty, log shows **`401 Unauthorized`** | Invalid key, wrong API host, or model not allowed | See [Fix 401](#fix-401-unauthorized) below |
+| Only **「Create new thread」** visible | No active thread, or previous run failed | Click **Create new thread** → choose **`add_supervisor`** → send again |
+
+Tools **are** registered (`IterationTools`: `run_iteration_1` … `run_iteration_4`); a missing framework is not the issue.
+
+#### Fix 401 Unauthorized
+
+Server log example:
+
+```text
+401 Unauthorized from POST https://api.openai.com/v1/chat/completions
+```
+
+1. **Same terminal**: `export OPENAI_API_KEY=...` then `./mvnw spring-boot:run` (IDE runs need the env var in Run Configuration too).
+2. **Official OpenAI key**: must work against `https://api.openai.com` and support model `gpt-5.4` (or change model in `application.yml`).
+3. **Third-party / school proxy**: set `spring.ai.openai.base-url` to that provider’s OpenAI-compatible endpoint (see commented line in `application.yml`).
+4. **Verify** (replace key):
+
+```bash
+curl -s -o /dev/null -w "%{http_code}" https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+```
+
+`200` = key accepted by OpenAI; `401` = key rejected (UI will stay blank).
 
 ---
 

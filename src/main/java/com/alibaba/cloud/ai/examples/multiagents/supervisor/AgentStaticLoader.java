@@ -33,17 +33,22 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * <p>Exposes the supervisor agent (and optionally calendar/email agents) through the
  * AgentLoader interface for Spring AI Alibaba Studio. The main entry for Studio is
- * the "personal_assistant" supervisor agent.
+ * {@code add_supervisor}. The legacy name {@code personal_assistant} is kept as an alias
+ * because Studio may cache the old app id in the browser.
  */
 @Component
 class AgentStaticLoader implements AgentLoader {
 
-	private static final String SUPERVISOR_AGENT_NAME = "add_supervisor";
+	public static final String SUPERVISOR_AGENT_NAME = "add_supervisor";
+
+	/** Studio UI may still request this id from an earlier session / cached thread. */
+	private static final String LEGACY_AGENT_ALIAS = "personal_assistant";
 
 	private final Map<String, Agent> agents = new ConcurrentHashMap<>();
 
 	public AgentStaticLoader(@Qualifier("supervisorAgent") ReactAgent supervisorAgent) {
 		this.agents.put(SUPERVISOR_AGENT_NAME, supervisorAgent);
+		this.agents.put(LEGACY_AGENT_ALIAS, supervisorAgent);
 	}
 
 	@Override

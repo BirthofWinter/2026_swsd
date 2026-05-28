@@ -37,7 +37,9 @@ public class SupervisorApplication {
 			String accessUrl = "http://localhost:" + port + contextPath + "/chatui/index.html";
 			System.out.println("\n🎉========================================🎉");
 			System.out.println("✅ HPS ADD 3.0 Multi-Agent Architecture Design is ready!");
-			System.out.println("🚀 Chat with personal assistant: " + accessUrl);
+			System.out.println("🚀 Chat UI: " + accessUrl);
+			System.out.println("🔍 LLM check: http://localhost:" + port + contextPath + "/api/diagnostics/llm");
+			System.out.println("   (must show ok:true before Chat UI will reply)");
 			System.out.println("🎉========================================🎉\n");
 		};
 	}
