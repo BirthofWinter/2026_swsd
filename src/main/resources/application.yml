@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: hps-add-option3
+  ai:
+    dashscope:
+      enabled: false
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      chat:
+        options:
+          model: gpt-5.4
+
+supervisor:
+  run-examples: true
