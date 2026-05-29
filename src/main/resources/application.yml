@@ -8,7 +8,7 @@ spring:
     dashscope:
       enabled: false
     openai:
-      api-key: ${OPENAI_API_KEY:}
+      api-key: ${OPENAI_API_KEY:sk_m2CEX6S0ifz_hEVycxisAvUrXtdQ7VkSU7IUxLE5BK8}
       base-url: ${OPENAI_BASE_URL:https://api.ppio.com/openai}
       chat:
         options:
