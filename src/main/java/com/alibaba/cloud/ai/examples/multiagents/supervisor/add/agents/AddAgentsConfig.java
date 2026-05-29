@@ -70,9 +70,14 @@ public class AddAgentsConfig {
 			+ "2. Cite the specific driver ID(s) when justifying each decision.\n"
 			+ "3. Name every architectural element and state its single responsibility.\n"
 			+ "4. Do not introduce technologies, patterns, or requirements not in the prior knowledge.\n"
-			+ "5. Output:\n"
+			+ "5. For Iteration 2, explicitly map HPS-1 through HPS-6 to architectural elements "
+			+ "and identify the interfaces needed among those elements.\n"
+			+ "6. Output:\n"
 			+ "   (a) Architectural elements — name, responsibility, relationships.\n"
-			+ "   (b) Design decisions — numbered list, each citing driver IDs.\n";
+			+ "   (b) Primary functionality coverage — HPS ID mapped to responsible elements.\n"
+			+ "   (c) Interfaces — producer, consumer, purpose.\n"
+			+ "   (d) Design decisions — numbered list, each citing driver IDs.\n"
+			+ "   (e) Risks or issues for the Quality Validator.\n";
 
 	// ── View Recorder ──────────────────────────────────────────────────────────
 	private static final String VIEW_RECORDER_PROMPT =

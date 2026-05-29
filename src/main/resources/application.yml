@@ -9,10 +9,15 @@ spring:
       enabled: false
     openai:
       api-key: ${OPENAI_API_KEY:}
-      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      base-url: ${OPENAI_BASE_URL:https://api.ppio.com/openai}
       chat:
         options:
-          model: ${OPENAI_MODEL:gpt-5.4}
+          model: ${OPENAI_MODEL:pa/gpt-5.4}
+          temperature: 1
+          top-p: 1
+          n: 1
+          presence-penalty: 0
+          frequency-penalty: 0
 
 supervisor:
   # Set true only when you want the full 4-iteration run on startup (many LLM calls)
