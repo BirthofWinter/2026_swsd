@@ -15,6 +15,7 @@
  */
 package com.alibaba.cloud.ai.examples.multiagents.supervisor.add.pipeline;
 
+import com.alibaba.cloud.ai.examples.multiagents.supervisor.add.logging.ConversationLogService;
 import com.alibaba.cloud.ai.graph.agent.ReactAgent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -37,17 +38,18 @@ public class IterationPipelineService {
 			@Qualifier("driverAnalystAgent") ReactAgent driverAnalyst,
 			@Qualifier("structureDesignerAgent") ReactAgent structureDesigner,
 			@Qualifier("viewRecorderAgent") ReactAgent viewRecorder,
-			@Qualifier("qualityValidatorAgent") ReactAgent qualityValidator) {
+			@Qualifier("qualityValidatorAgent") ReactAgent qualityValidator,
+			ConversationLogService conversationLogService) {
 
 		this.pipelines = new IterationPipeline[] {
 			new IterationPipeline(1, "Establishing an Overall System Structure",
-					driverAnalyst, structureDesigner, viewRecorder, qualityValidator),
+					driverAnalyst, structureDesigner, viewRecorder, qualityValidator, conversationLogService),
 			new IterationPipeline(2, "Identifying Structures to Support Primary Functionality",
-					driverAnalyst, structureDesigner, viewRecorder, qualityValidator),
+					driverAnalyst, structureDesigner, viewRecorder, qualityValidator, conversationLogService),
 			new IterationPipeline(3, "Addressing Reliability and Availability Quality Attributes",
-					driverAnalyst, structureDesigner, viewRecorder, qualityValidator),
+					driverAnalyst, structureDesigner, viewRecorder, qualityValidator, conversationLogService),
 			new IterationPipeline(4, "Addressing Development and Operations",
-					driverAnalyst, structureDesigner, viewRecorder, qualityValidator),
+					driverAnalyst, structureDesigner, viewRecorder, qualityValidator, conversationLogService),
 		};
 	}
 
@@ -60,9 +62,13 @@ public class IterationPipelineService {
 	 * @throws Exception                if any agent call fails
 	 */
 	public IterationResult runIteration(int number) throws Exception {
+		return runIteration(number, "");
+	}
+
+	public IterationResult runIteration(int number, String previousIterationContext) throws Exception {
 		if (number < 1 || number > 4) {
 			throw new IllegalArgumentException("Iteration number must be 1–4, got: " + number);
 		}
-		return pipelines[number - 1].run();
+		return pipelines[number - 1].run(previousIterationContext);
 	}
 }

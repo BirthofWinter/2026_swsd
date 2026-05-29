@@ -92,7 +92,7 @@ public class IterationTools {
 	private String runSafe(int number, String context) {
 		try {
 			log.info("[Supervisor→Tool] Invoking iteration {} pipeline. Context: {}", number, context);
-			return pipelineService.runIteration(number).toSummary();
+			return pipelineService.runIteration(number, context).toSummary();
 		}
 		catch (Exception e) {
 			log.error("[Supervisor→Tool] Iteration {} pipeline failed", number, e);
